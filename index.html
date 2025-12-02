@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <!-- CSS Modules -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/ai.css">
+    <link rel="stylesheet" href="css/todos.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/features.css">
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <h1>
+                <span class="icon">✓</span>
+                My To-Do List
+            </h1>
+            <div class="header-actions">
+                <button class="theme-toggle" id="theme-toggle" title="Toggle Dark Mode">
+                    🌙
+                </button>
+                <button class="ai-toggle" id="ai-toggle" title="Toggle AI Insights">
+                    🤖
+                </button>
+                <button class="calendar-toggle" id="calendar-toggle" title="Toggle Calendar">
+                    📅
+                </button>
+            </div>
+        </div>
+        
+        <div class="calendar-container" id="calendar-container" style="display: none;">
+            <div class="calendar-header">
+                <button class="calendar-nav" id="prev-month">‹</button>
+                <h2 id="calendar-month-year"></h2>
+                <button class="calendar-nav" id="next-month">›</button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+        
+        <div class="search-container" id="search-container" style="display: none;">
+            <input 
+                type="text" 
+                id="search-input" 
+                class="search-input"
+                placeholder="Search todos... (Press / to focus)"
+                autocomplete="off"
+            >
+            <button class="close-search" id="close-search">×</button>
+        </div>
+
+        <form id="todo-form">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="todo-input" 
+                    placeholder="Try: 'Meeting tomorrow at 3pm' or 'Buy groceries today'"
+                    autocomplete="off"
+                >
+                <input 
+                    type="date" 
+                    id="todo-due-date" 
+                    class="date-input"
+                    title="Set due date (optional)"
+                >
+                <input 
+                    type="time" 
+                    id="todo-due-time" 
+                    class="time-input"
+                    title="Set time (optional)"
+                >
+            </div>
+            <button type="submit" class="add-btn">
+                <span>Add Task</span>
+            </button>
+        </form>
+
+        <div class="ai-insights-panel" id="ai-insights-panel" style="display: none;">
+            <div class="ai-header">
+                <h3>🤖 AI Insights</h3>
+                <button class="close-ai" id="close-ai">×</button>
+            </div>
+            <div class="ai-content">
+                <div class="ai-section">
+                    <h4>📊 Task Analytics</h4>
+                    <div id="ai-analytics"></div>
+                </div>
+                <div class="ai-section">
+                    <h4>💡 Smart Suggestions</h4>
+                    <div id="ai-suggestions"></div>
+                </div>
+                <div class="ai-section">
+                    <h4>⚡ Quick Actions</h4>
+                    <div id="ai-quick-actions"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="filters">
+                <button class="filter-button active" data-filter="all">
+                    <span>All</span>
+                </button>
+                <button class="filter-button" data-filter="active">
+                    <span>Active</span>
+                </button>
+                <button class="filter-button" data-filter="completed">
+                    <span>Completed</span>
+                </button>
+                <button class="filter-button" data-filter="priority" id="priority-filter">
+                    <span>⭐ Priority</span>
+                </button>
+            </div>
+            <div class="toolbar-actions">
+                <button class="toolbar-btn" id="search-toggle" title="Search (/)">
+                    🔍
+                </button>
+                <button class="toolbar-btn" id="bulk-select-btn" title="Select Multiple (Ctrl+B)">
+                    ☑️
+                </button>
+                <button class="toolbar-btn" id="export-btn" title="Export Data">
+                    💾
+                </button>
+                <button class="toolbar-btn" id="import-btn" title="Import Data">
+                    📥
+                </button>
+            </div>
+        </div>
+
+        <div class="bulk-actions" id="bulk-actions" style="display: none;">
+            <span id="selected-count">0 selected</span>
+            <div class="bulk-buttons">
+                <button class="bulk-btn" id="bulk-complete">✓ Complete</button>
+                <button class="bulk-btn" id="bulk-delete">🗑️ Delete</button>
+                <button class="bulk-btn" id="bulk-cancel">Cancel</button>
+            </div>
+        </div>
+
+        <ul id="todo-list"></ul>
+
+        <div class="footer">
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Active</span>
+                    <span class="stat-value" id="active-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Completed</span>
+                    <span class="stat-value" id="completed-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total</span>
+                    <span class="stat-value" id="total-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Overdue</span>
+                    <span class="stat-value" id="overdue-count">0</span>
+                </div>
+            </div>
+            <div class="ai-hint" id="ai-hint">
+                💡 Tip: Type natural language like "meeting tomorrow at 3pm" - AI will parse it!
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/todos.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/features.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/dragdrop.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+/* Responsive Design */
+@media (max-width: 640px) {
+    .app {
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .date-input,
+    .time-input {
+        width: 100%;
+    }
+
+    .edit-datetime-container {
+        flex-direction: column;
+    }
+
+    .edit-date-input,
+    .edit-time-input {
+        width: 100%;
+    }
+
+    .calendar-grid {
+        gap: 4px;
+    }
+
+    .calendar-day {
+        font-size: 12px;
+    }
+
+    .stats {
+        gap: 12px;
+    }
+
+    .stat-value {
+        font-size: 20px;
+    }
+
+    .ai-content {
+        gap: 12px;
+    }
+    
+    .ai-section {
+        padding: 16px;
+    }
+    
+    #ai-analytics {
+        grid-template-columns: 1fr;
+    }
+    
+    #ai-quick-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .ai-stat-value {
+        font-size: 20px;
+    }
+}
+
